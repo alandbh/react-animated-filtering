@@ -12,6 +12,8 @@ const buttonStyles = {
 
 }
 
+
+
 const images = [
   {id: 1, cat: 'animal'},
   {id: 2, cat: 'space'},
@@ -32,8 +34,11 @@ function setShuffleInstance(category) {
 }
 
 function App() {
+
+
   
   let [category, setCategory] = useState('');
+  let [hlPosition, setHlPosition] = useState({left: 0, width: 50});
 
   useEffect(() => { // Used for calling a function as soon as the component is mounted on screen.
     
@@ -41,12 +46,25 @@ function App() {
 
   }, []);
 
+ let highlightStyles = {
+    left: hlPosition.left,
+    width: hlPosition.width,
+    bottom: 0,
+    position: 'absolute',
+    display: 'inline-block',
+    height: 3,
+    backgroundColor: 'orange',
+}
 
-function filterBy(cat) {
-  // evt.persist()
+function filterBy(cat, evt) {
+  evt.persist()
   shuffleInstance.filter(cat);
   setCategory(cat);
   // evt.target.className = 'active';
+  console.log(evt);
+
+  setHlPosition({left: evt.target.offsetLeft, width: evt.target.offsetWidth});
+
 }
 
 
@@ -54,13 +72,13 @@ return (
     
     <div className="App">
       <h1>Showing "{category || 'All'}" photos</h1>
-      <div>
+      <div className="filter-container">
         
-        <button style={category === 'space' ? buttonStyles.active : {}} onClick={() => filterBy('space')}>Space</button>
-        <button style={category === 'animal' ? buttonStyles.active : {}} onClick={() => filterBy('animal')}>Animal</button>
-        <button style={category === 'travel' ? buttonStyles.active : {}} onClick={() => filterBy('travel')}>Travel</button>
-        <button style={category === '' ? buttonStyles.active : {}} onClick={() => filterBy('')}>All</button>
-
+        <button style={category === 'space' ? buttonStyles.active : {}} onClick={(evt) => filterBy('space', evt)}>Space</button>
+        <button style={category === 'animal' ? buttonStyles.active : {}} onClick={(evt) => filterBy('animal', evt)}>Animal</button>
+        <button style={category === 'travel' ? buttonStyles.active : {}} onClick={(evt) => filterBy('travel', evt)}>Travel</button>
+        <button style={category === '' ? buttonStyles.active : {}} onClick={(evt) => filterBy('', evt)}>All</button>
+        <span style={highlightStyles}></span>
       </div>
       <ul className="grid" id="grid">
         {
