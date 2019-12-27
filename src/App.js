@@ -6,7 +6,7 @@ import Shuffle from 'shufflejs';
 
 const buttonStyles = {
   active: {
-    backgroundColor: '#c00',
+    backgroundColor: 'darkorange',
     color: '#fff'
   }
 
@@ -44,29 +44,25 @@ function App() {
     
     setShuffleInstance(category);
 
+    const btnAll = document.querySelector('#btn-all');
+    setHlPosition({left: btnAll.offsetLeft, width: btnAll.offsetWidth});
+
   }, []);
 
  let highlightStyles = {
     left: hlPosition.left,
     width: hlPosition.width,
-    bottom: 0,
-    position: 'absolute',
-    display: 'inline-block',
-    height: 3,
-    backgroundColor: 'orange',
+    
 }
 
 function filterBy(cat, evt) {
   evt.persist()
   shuffleInstance.filter(cat);
   setCategory(cat);
-  // evt.target.className = 'active';
-  console.log(evt);
 
   setHlPosition({left: evt.target.offsetLeft, width: evt.target.offsetWidth});
 
 }
-
 
 return (
     
@@ -77,16 +73,19 @@ return (
         <button style={category === 'space' ? buttonStyles.active : {}} onClick={(evt) => filterBy('space', evt)}>Space</button>
         <button style={category === 'animal' ? buttonStyles.active : {}} onClick={(evt) => filterBy('animal', evt)}>Animal</button>
         <button style={category === 'travel' ? buttonStyles.active : {}} onClick={(evt) => filterBy('travel', evt)}>Travel</button>
-        <button style={category === '' ? buttonStyles.active : {}} onClick={(evt) => filterBy('', evt)}>All</button>
+        <button id="btn-all" style={category === '' ? buttonStyles.active : {}} onClick={(evt) => filterBy('', evt)}>All</button>
         <span style={highlightStyles}></span>
       </div>
-      <ul className="grid" id="grid">
-        {
-          images.map(
-            index => <li key={index.id} data-groups={`["${index.cat}"]`} className="photo-item"><img src={`/images/image-0${index.id}.jpg`} alt="" /></li>
-          )
-        }
-      </ul>
+      
+      <div id="grid-container">
+        <ul className="grid" id="grid">
+            {
+            images.map(
+                index => <li key={index.id} data-groups={`["${index.cat}"]`} className="photo-item"><img src={`/images/image-0${index.id}.jpg`} alt="" /></li>
+            )
+            }
+        </ul>
+      </div>
     </div>
   );
 }
