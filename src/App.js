@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.scss';
 import Shuffle from 'shufflejs';
 
@@ -34,8 +33,6 @@ function setShuffleInstance(category) {
 }
 
 function App() {
-
-
   
   let [category, setCategory] = useState('');
   let [hlPosition, setHlPosition] = useState({left: 0, width: 50});
@@ -67,25 +64,27 @@ function filterBy(cat, evt) {
 return (
     
     <div className="App">
-      <h1>Showing "{category || 'All'}" photos</h1>
-      <div className="filter-container">
-        
-        <button style={category === 'space' ? buttonStyles.active : {}} onClick={(evt) => filterBy('space', evt)}>Space</button>
-        <button style={category === 'animal' ? buttonStyles.active : {}} onClick={(evt) => filterBy('animal', evt)}>Animal</button>
-        <button style={category === 'travel' ? buttonStyles.active : {}} onClick={(evt) => filterBy('travel', evt)}>Travel</button>
-        <button id="btn-all" style={category === '' ? buttonStyles.active : {}} onClick={(evt) => filterBy('', evt)}>All</button>
-        <span style={highlightStyles}></span>
-      </div>
+        <h1>React Animated Filtering</h1>
+        <h2>Showing "{category || 'All'}" photos</h2>
+
+        <div className="filter-container">
+            
+            <button style={category === 'space' ? buttonStyles.active : {}} onClick={(evt) => filterBy('space', evt)}>Space</button>
+            <button style={category === 'animal' ? buttonStyles.active : {}} onClick={(evt) => filterBy('animal', evt)}>Animal</button>
+            <button style={category === 'travel' ? buttonStyles.active : {}} onClick={(evt) => filterBy('travel', evt)}>Travel</button>
+            <button id="btn-all" style={category === '' ? buttonStyles.active : {}} onClick={(evt) => filterBy('', evt)}>All</button>
+            <span style={highlightStyles}></span>
+        </div>
       
-      <div id="grid-container">
-        <ul className="grid" id="grid">
-            {
-            images.map(
-                index => <li key={index.id} data-groups={`["${index.cat}"]`} className="photo-item"><img src={`/images/image-0${index.id}.jpg`} alt="" /></li>
-            )
-            }
-        </ul>
-      </div>
+        <div id="grid-container">
+            <ul className="grid" id="grid">
+                {
+                images.map(
+                    index => <li key={index.id} data-groups={`["${index.cat}"]`} className="photo-item"><img src={`/images/image-0${index.id}.jpg`} alt="" /></li>
+                )
+                }
+            </ul>
+        </div>
     </div>
   );
 }
